@@ -50,7 +50,7 @@ jobs:
         run: nuget install xunit.runner.console -Version 2.4.1 -OutputDirectory testrunner
         
       - name: Compile code
-        run:  dotnet build ./src/SampleForMetrics/SampleForMetrics.sln
+        run:  mono ./src/SampleForMetrics/SampleForMetrics.sln
 
       - name: Integration test under dotnet
         run: |
