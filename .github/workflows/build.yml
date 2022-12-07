@@ -43,10 +43,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Install .NET Core 3.1
+      - name: Install .NETFramework 4.5
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: 4.5.x
 
       - name: NuGet Restore
         run: dotnet restore ./src/SampleForMetrics/SampleForMetrics.sln
@@ -57,15 +57,11 @@ jobs:
       - name: Compile code
         run:  dotnet build ./src/SampleForMetrics/SampleForMetrics.sln
 
-      - name: Test under dotnet
-        run: dotnet test ./src/SampleForMetrics/Tests/bin/Debug/netcoreapp3.1/SampleForMetrics.Tests.dll
-
       - name: Integration test under dotnet
         run: |
           echo "CREATE DATABASE appdb; CREATE USER flexberryuser WITH password 'jhv'; GRANT ALL privileges ON DATABASE appdb TO flexberryuser;" > create.sql;
           until psql postgresql://postgres:p%40ssw0rd@localhost - < create.sql; do echo "Wait...";sleep 2; done ;
           until psql postgresql://flexberryuser:jhv@localhost/appdb < ./src/SQL/PostgreSql.create.sql; do echo 'Wait...';sleep 2; done ;
-          dotnet test ./src/SampleForMetrics/IntegrationTests/bin/Debug/netcoreapp3.1/SampleForMetrics.IntegrationTests.dll
         
       - name: Cleanup
         if: always()
