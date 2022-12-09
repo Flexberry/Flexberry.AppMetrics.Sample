@@ -43,7 +43,7 @@ jobs:
           export DISPLAY=:99
           export SSH_ASKPASS=1
           export FLEXBERRY_TOKEN
-          mono ./gen/NewPlatform.Flexberry.Designer.CommandLine.2.0.0-beta13/tools/flexberry.exe ./GenConfig.fdg "${FLEXBERRY_TOKEN}"
+          mono ./gen/NewPlatform.Flexberry.Designer.CommandLine.2.0.0-beta13/tools/flexberry.exe ./FullGenConfig.fdg "${FLEXBERRY_TOKEN}"
       - name: Tune ssh-keys
         env:
             PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}      
@@ -81,7 +81,7 @@ jobs:
           echo "Done."
       - name: Git gh-pages
         run: |
-          GHPAGES=$(jq '.GenerationItems.Frontend.EmberJs.GhPagesPush' ./GenConfig.fdg)
+          GHPAGES=$(jq '.GenerationItems.Frontend.EmberJs.GhPagesPush' ./FullGenConfig.fdg)
           if [ "$GHPAGES" = "true" ]
           then
             if [ -f "./src/ember-app/config/environment.js" ]
